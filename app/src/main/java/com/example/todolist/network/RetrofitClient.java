@@ -3,7 +3,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://10.0.2.2:5000/"; // for Android emulator
+    private static final String BASE_URL = "https://todo-list-backend-red.vercel.app/"; // for Android emulator
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {
