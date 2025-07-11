@@ -1,40 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- Title Input -->
     <EditText
         android:id="@+id/editTitle"
         android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="100dp"
         android:hint="Task Title" />
 
-    <!-- Description Input -->
     <EditText
         android:id="@+id/editDescription"
         android:layout_width="match_parent"
-        android:layout_height="78dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="8dp"
         android:hint="Task Description" />
 
-    <!-- Add Button -->
     <Button
         android:id="@+id/buttonAdd"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginTop="20dp"
-        android:text="Add Task" />
+        android:layout_height="wrap_content"
+        android:text="Add Task"
+        android:layout_marginTop="8dp" />
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTasks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_weight="1" />
+        android:layout_marginTop="50dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
 </LinearLayout>
