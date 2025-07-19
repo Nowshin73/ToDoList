@@ -1,10 +1,12 @@
 package com.example.todolist.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         editTitle = findViewById(R.id.editTitle);
         editDescription = findViewById(R.id.editDescription);
         buttonAdd = findViewById(R.id.buttonAdd);
@@ -53,11 +54,17 @@ public class MainActivity extends AppCompatActivity {
                 taskViewModel.deleteTask(task.get_id());
             }
 
+//            @Override
+//            public void onStatusChanged(Task task, boolean isDone) {
+//                task.setDone(isDone);
+//                taskViewModel.updateTask(task.get_id(), task);
+//            }
+
             @Override
             public void onStatusChanged(Task task, boolean isDone) {
-                task.setDone(isDone);
-                taskViewModel.updateTask(task.get_id(), task);
+                taskViewModel.updateTaskStatus(task.get_id(), isDone);
             }
+
 
             @Override
             public void onEditClicked(Task task) {
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showEditDialog(Task task) {
+    private void showEditDialog(@NonNull Task task) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Edit Task");
 
@@ -104,14 +111,22 @@ public class MainActivity extends AppCompatActivity {
             String newDesc = inputDesc.getText().toString().trim();
 
             if (!newTitle.isEmpty()) {
-                task.setTitle(newTitle);
-                task.setDescription(newDesc);
-                taskViewModel.updateTask(task.get_id(), task);
+                // Create updated task with full fields
+                Task updatedTask = new Task();
+               // updatedTask.set_id(task.get_id());
+                updatedTask.setTitle(newTitle);
+                updatedTask.setDescription(newDesc);
+                updatedTask.setDone(task.isDone()); // preserve status
+                taskViewModel.updateTask(task.get_id(), updatedTask);
+                Toast.makeText(MainActivity.this, "task updated", Toast.LENGTH_SHORT).show();
+                taskViewModel.fetchTasks();
+            } else {
+                Toast.makeText(MainActivity.this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
             }
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
         builder.show();
     }
+
 }

@@ -5,7 +5,9 @@ public class Task {
     private String description;
     private boolean isDone;
 
-    public Task() {}
+    public Task() {
+        // Empty constructor for manual field setting
+    }
 
     public Task(String title, String description, boolean isDone) {
         this.title = title;
@@ -18,6 +20,7 @@ public class Task {
     public String getDescription() { return description; }
     public boolean isDone() { return isDone; }
 
+    public void set_id(String _id) { this._id = _id; }
     public void setTitle(String title) { this.title = title; }
     public void setDescription(String description) { this.description = description; }
     public void setDone(boolean done) { this.isDone = done; }

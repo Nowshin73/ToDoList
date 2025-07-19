@@ -48,15 +48,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.textNumber.setText((position + 1) + ".");
         holder.textTitle.setText(task.getTitle());
         holder.textDescription.setText(task.getDescription());
-        holder.checkboxDone.setChecked(task.isDone());
+//        holder.checkboxDone.setChecked(task.isDone());
 
         holder.buttonDelete.setOnClickListener(v -> listener.onDeleteClicked(task));
         holder.buttonEdit.setOnClickListener(v -> listener.onEditClicked(task));
 
+//        holder.checkboxDone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            task.setDone(isChecked);
+//            listener.onStatusChanged(task, isChecked);
+//        });
+        holder.checkboxDone.setOnCheckedChangeListener(null);
+        holder.checkboxDone.setChecked(task.isDone());
         holder.checkboxDone.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            task.setDone(isChecked);
-            listener.onStatusChanged(task, isChecked);
+            if (task.isDone() != isChecked) {
+                listener.onStatusChanged(task, isChecked); // triggers PATCH
+            }
         });
+
     }
 
     @Override

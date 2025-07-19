@@ -1,6 +1,7 @@
 package com.example.todolist.repository;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,7 +10,9 @@ import com.example.todolist.network.ApiService;
 import com.example.todolist.network.RetrofitClient;
 import com.example.todolist.network.TaskApi;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,16 +62,56 @@ public class TaskRepository {
         });
     }
 
+//    public void updateTask(String id, Task task, TaskCallback callback) {
+//        api.updateTask(id, task).enqueue(new Callback<Task>() {
+//            @Override
+//            public void onResponse(@NonNull Call<Task> call, @NonNull Response<Task> response) {
+//                if (response.isSuccessful()) {
+//                    callback.onSuccess();
+//                } else {
+//                    callback.onError("Update failed task repository: " + response.code());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Task> call, Throwable t) {
+//                callback.onError("Error task repository: " + t.getMessage());
+//            }
+//        });
+//    }
+
     public void updateTask(String id, Task task, TaskCallback callback) {
-        api.updateTask(id, task).enqueue(new Callback<Task>() {
+        api.updateTask(id, task).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Task> call, Response<Task> response) {
-                if (response.isSuccessful()) callback.onSuccess();
-                else callback.onError("Failed to update task");
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(); // No argument needed
+                } else {
+                    callback.onError("Update failed task repository: " + response.code());
+                }
             }
 
             @Override
-            public void onFailure(Call<Task> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                callback.onError("Error task repository: " + t.getMessage());
+            }
+        });
+    }
+
+
+    public void updateTaskStatus(String id, boolean isDone, TaskCallback callback) {
+        Map<String, Boolean> statusMap = new HashMap<>();
+        statusMap.put("isDone", isDone);
+
+        api.updateTaskStatus(id, statusMap).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) callback.onSuccess();
+                else callback.onError("Failed to update isDone");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 callback.onError(t.getMessage());
             }
         });

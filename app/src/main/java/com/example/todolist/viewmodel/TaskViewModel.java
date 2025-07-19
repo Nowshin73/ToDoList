@@ -62,7 +62,20 @@ public class TaskViewModel extends ViewModel {
 
             @Override
             public void onError(String error) {
-                Log.e("Update", error);
+                Log.e("Update task view model ", error);
+            }
+        });
+    }
+    public void updateTaskStatus(String id, boolean isDone) {
+        repository.updateTaskStatus(id, isDone, new TaskRepository.TaskCallback() {
+            @Override
+            public void onSuccess() {
+                fetchTasks();
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("Patch", error);
             }
         });
     }
